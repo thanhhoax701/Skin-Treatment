@@ -133,6 +133,19 @@ h1 {
     border-radius: 6px;
 }
 
+/* BỎ DẤU CHẤM TRONG ĐÁNH GIÁ */
+.overall-content ul {
+    list-style: none;
+    /* bỏ bullet */
+    padding-left: 0;
+    /* bỏ thụt lề */
+    margin-left: 0;
+}
+
+.overall-content li {
+    margin-left: 0;
+}
+
 .save-review {
     margin-top: 10px;
     padding: 6px 12px;
