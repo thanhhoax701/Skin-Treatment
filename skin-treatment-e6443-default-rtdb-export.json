@@ -1,0 +1,78 @@
+{
+  "cards": {
+    "center": {
+      "-Nxyz001": {
+        "dateKey": "08-01-2026",
+        "dateTime": "08/01/2026 - 17:30",
+        "imageUrl": "https://i.ibb.co/HD6gJCYC/C-08-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm và mụn ẩn rải rác hai bên má                                         <br>                                         • Nhiều thâm đỏ và thâm nâu                                         <br>                                         • Mụn tập trung vùng cằm                                         <br>                                         • Da không đều, sần nhẹ                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang viêm hoạt động, chưa ổn định"
+      },
+      "-Nxyz002": {
+        "dateKey": "13-01-2026",
+        "dateTime": "13/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/35CtDqsX/C-13-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm mới giảm rõ                                         <br>                                         • Thâm sau mụn còn nhiều                                         <br>                                         • Da bớt sần, mịn hơn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đáp ứng điều trị tốt, đang hồi phục"
+      },
+      "-Nxyz003": {
+        "dateKey": "18-01-2026",
+        "dateTime": "18/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/8L57tzz8/C-18-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Ít mụn viêm mới                                         <br>                                         • Thâm rải rác, nhạt dần                                         <br>                                         • Da đều màu, bề mặt mịn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định rõ rệt, tiến triển tích cực"
+      }
+    },
+    "left": {
+      "-Nxyz001": {
+        "dateKey": "08-01-2026",
+        "dateTime": "08/01/2026 - 17:30",
+        "imageUrl": "https://i.ibb.co/mF9Npb1m/L-08-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm dày, lan rộng vùng má                                         <br>                                         • Nhiều mụn đỏ, mụn ẩn                                         <br>                                         • Thâm đỏ & thâm nâu nhiều                                         <br>                                         • Da sần, lỗ chân lông rõ                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang viêm mạnh, chưa ổn định"
+      },
+      "-Nxyz002": {
+        "dateKey": "13-01-2026",
+        "dateTime": "13/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/Q3DmBnkx/L-13-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Số lượng mụn viêm giảm                                         <br>                                         • Chủ yếu mụn viêm nhỏ & thâm                                         <br>                                         • Da bớt gồ ghề                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đáp ứng điều trị, tiến triển tích cực"
+      },
+      "-Nxyz003": {
+        "dateKey": "18-01-2026",
+        "dateTime": "18/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/8gzXYSF6/L-18-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Ít mụn viêm mới                                         <br>                                         • Chủ yếu còn thâm sau mụn                                         <br>                                         • Da mịn, đều màu hơn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da hồi phục tốt, ổn định rõ rệt"
+      }
+    },
+    "right": {
+      "-Nxyz001": {
+        "dateKey": "08-01-2026",
+        "dateTime": "08/01/2026 - 17:30",
+        "imageUrl": "https://i.ibb.co/JwxnXfnx/R-08-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm dày, lan rộng vùng má                                         <br>                                         • Nhiều mụn đỏ, mụn ẩn                                         <br>                                         • Thâm đỏ & thâm nâu nhiều                                         <br>                                         • Da sần, lỗ chân lông rõ                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang viêm nặng, chưa ổn định"
+      },
+      "-Nxyz002": {
+        "dateKey": "13-01-2026",
+        "dateTime": "13/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/F4ZhFNSr/R-13-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm mới giảm rõ                                         <br>                                         • Chủ yếu còn thâm sau mụn                                         <br>                                         • Da bớt sần, bề mặt mịn hơn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đáp ứng điều trị tốt, đang hồi phục"
+      },
+      "-Nxyz003": {
+        "dateKey": "18-01-2026",
+        "dateTime": "18/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/8L5sJ9cq/R-18-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Rất ít mụn viêm mới                                         <br>                                         • Thâm rải rác, nhạt màu dần                                         <br>                                         • Da đều màu, bề mặt mịn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định rõ rệt, tiến triển tích cực"
+      }
+    }
+  },
+  "reviews": {
+    "front": {
+      "content": "\n                        <ul>\n                            <li>- Mụn viêm mới giảm rõ</li>\n                            <li>- Bề mặt da ổn định, đều màu hơn so với ban đầu</li></ul><p><br></p><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận:</h2><div><p>Da hồi phục tốt, chuyển sang giai đoạn duy trì và cải thiện sắc tố.</p></div>\n                    ",
+      "updatedAt": 1768719851143
+    },
+    "left": {
+      "content": "\n                        <ul>\n                            <li>- Mụn viêm giảm rõ rệt qua từng đợt</li>\n                            <li>- Không xuất hiện thêm mụn viêm lớn</li>\n                            <li>- Da ổn định hơn, ít kích ứng</li><li><br></li></ul><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận:</h2><div><p>Đáp ứng điều trị tốt, giai đoạn tiếp theo nên tập trung phục hồi da và giảm thâm.</p></div>\n                    ",
+      "updatedAt": 1768719833438
+    },
+    "right": {
+      "content": "\n                        <ul>\n                            <li><br></li></ul><h3 data-start=\"91\" data-end=\"117\">1. Tình trạng mụn viêm</h3><ul data-start=\"118\" data-end=\"324\">\n<li data-start=\"118\" data-end=\"221\">\n<p data-start=\"120\" data-end=\"130\"><strong data-start=\"120\" data-end=\"128\">8/1:</strong></p>\n<ul data-start=\"133\" data-end=\"221\">\n<li data-start=\"133\" data-end=\"181\">\n<p data-start=\"135\" data-end=\"181\">Nhiều nốt mụn viêm nhỏ, rải rác khá dày ở má</p>\n</li>\n<li data-start=\"184\" data-end=\"221\">\n<p data-start=\"186\" data-end=\"221\">Có mụn đang đỏ, một số nốt còn sưng</p>\n</li>\n</ul>\n</li>\n<li data-start=\"222\" data-end=\"324\">\n<p data-start=\"224\" data-end=\"236\"><strong data-start=\"224\" data-end=\"234\">18/01:</strong></p>\n<ul data-start=\"239\" data-end=\"324\">\n<li data-start=\"239\" data-end=\"269\">\n<p data-start=\"241\" data-end=\"269\"><strong data-start=\"241\" data-end=\"267\">Ít mụn viêm hơn rõ rệt</strong></p>\n</li>\n<li data-start=\"272\" data-end=\"324\">\n<p data-start=\"274\" data-end=\"324\">Hầu hết là mụn đã xẹp, còn lại chủ yếu là vết thâm</p>\n</li>\n</ul>\n</li>\n</ul><p data-start=\"326\" data-end=\"395\">👉 <strong data-start=\"329\" data-end=\"342\">Kết luận:</strong> mụn viêm đã <strong data-start=\"355\" data-end=\"363\">giảm</strong>, đây là dấu hiệu cải thiện tốt.</p><h3 data-start=\"397\" data-end=\"420\">2. Vết thâm sau mụn</h3><ul data-start=\"421\" data-end=\"559\">\n<li data-start=\"421\" data-end=\"479\">\n<p data-start=\"423\" data-end=\"433\"><strong data-start=\"423\" data-end=\"431\">8/1:</strong></p>\n<ul data-start=\"436\" data-end=\"479\">\n<li data-start=\"436\" data-end=\"479\">\n<p data-start=\"438\" data-end=\"479\">Thâm đỏ/tím khá đậm, nền da không đều màu</p>\n</li>\n</ul>\n</li>\n<li data-start=\"480\" data-end=\"559\">\n<p data-start=\"482\" data-end=\"494\"><strong data-start=\"482\" data-end=\"492\">18/01:</strong></p>\n<ul data-start=\"497\" data-end=\"559\">\n<li data-start=\"497\" data-end=\"559\">\n<p data-start=\"499\" data-end=\"559\">Vết thâm vẫn còn nhưng <strong data-start=\"522\" data-end=\"534\">nhạt hơn</strong>, màu da đều hơn một chút</p>\n</li>\n</ul>\n</li>\n</ul><p data-start=\"561\" data-end=\"636\">👉 Thâm <strong data-start=\"569\" data-end=\"581\">chưa hết</strong>, nhưng đang đi đúng hướng (thâm thường cần thời gian).</p><h3 data-start=\"638\" data-end=\"655\">3. Kết cấu da</h3><ul data-start=\"656\" data-end=\"776\">\n<li data-start=\"656\" data-end=\"694\">\n<p data-start=\"658\" data-end=\"668\"><strong data-start=\"658\" data-end=\"666\">8/1:</strong></p>\n<ul data-start=\"671\" data-end=\"694\">\n<li data-start=\"671\" data-end=\"694\">\n<p data-start=\"673\" data-end=\"694\">Da sần, nhìn chưa mịn</p>\n</li>\n</ul>\n</li>\n<li data-start=\"695\" data-end=\"776\">\n<p data-start=\"697\" data-end=\"709\"><strong data-start=\"697\" data-end=\"707\">18/01:</strong></p>\n<ul data-start=\"712\" data-end=\"776\">\n<li data-start=\"712\" data-end=\"776\">\n<p data-start=\"714\" data-end=\"776\">Da nhìn <strong data-start=\"722\" data-end=\"737\">ổn định hơn</strong>, ít cảm giác “gồ ghề” do mụn viêm giảm</p>\n</li>\n</ul>\n</li>\n</ul><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận</h2><p data-start=\"801\" data-end=\"821\">✅ <strong data-start=\"803\" data-end=\"819\">Có cải thiện</strong></p><p>\n\n\n\n\n\n\n\n\n\n\n</p><ul data-start=\"822\" data-end=\"892\">\n<li data-start=\"822\" data-end=\"839\">\n<p data-start=\"824\" data-end=\"839\">Giảm mụn viêm</p>\n</li>\n<li data-start=\"840\" data-end=\"858\">\n<p data-start=\"842\" data-end=\"858\">Da ổn định hơn</p>\n</li>\n<li data-start=\"859\" data-end=\"892\">\n<p data-start=\"861\" data-end=\"892\">Thâm đang mờ dần (chưa hết hẳn)</p></li></ul>\n                    ",
+      "updatedAt": 1768724342802
+    }
+  }
+}
