@@ -42,19 +42,37 @@ h1 {
     padding: 20px;
 }
 
-/* ===== CARD ===== */
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+/* =====================================================
+   🚫 XÓA GRID – KHÔNG DÙNG grid-template-columns
+   ===================================================== */
+
+/* ===== CAROUSEL ===== */
+.carousel-wrapper {
+    position: relative;
 }
 
-.card {
+.carousel-viewport {
+    overflow: hidden;
+}
+
+/* container trượt ngang */
+.carousel-viewport .card-container {
+    display: flex;
+    /* QUAN TRỌNG */
+    gap: 20px;
+    transition: transform 0.4s ease;
+}
+
+/* ===== CARD – KHÓA CỨNG KÍCH THƯỚC ===== */
+.carousel-viewport .card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    max-width: calc((100% - 40px) / 3);
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
 }
 
+/* ===== IMAGE ===== */
 .card-image {
     background: #000;
     overflow: hidden;
@@ -62,6 +80,7 @@ h1 {
 
 .card-image img {
     width: 100%;
+    height: auto;
     object-fit: contain;
     cursor: zoom-in;
     transition: transform .35s ease;
@@ -71,6 +90,7 @@ h1 {
     transform: scale(1.08);
 }
 
+/* ===== INFO ===== */
 .card-info {
     position: relative;
     padding: 14px;
@@ -151,4 +171,40 @@ h1 {
     font-size: 28px;
     color: #fff;
     cursor: pointer;
+}
+
+/* ===== NÚT CAROUSEL ===== */
+.carousel-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    display: none;
+}
+
+.carousel-btn.prev {
+    left: -16px;
+}
+
+.carousel-btn.next {
+    right: -16px;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .carousel-viewport .card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
