@@ -47,20 +47,59 @@ modal.onclick = () => {
 };
 
 // ===== SAVE OVERALL REVIEW =====
+// document.querySelectorAll(".overall-review").forEach(section => {
+//     const key = section.dataset.key;
+//     const content = section.querySelector(".overall-content");
+//     const btn = section.querySelector(".save-review");
+
+//     const saved = localStorage.getItem(key);
+//     if (saved) content.innerHTML = saved;
+
+//     btn.onclick = () => {
+//         localStorage.setItem(key, content.innerHTML);
+//         btn.textContent = "✅ Đã lưu";
+//         setTimeout(() => btn.textContent = "💾 Lưu đánh giá", 1500);
+//     };
+// });
+
+import { db, ref, set, onValue } from "./firebase.js";
+
+// map key html -> firebase
+const REVIEW_MAP = {
+    "overall-left": "left",
+    "overall-right": "right",
+    "overall-front": "front"
+};
+
 document.querySelectorAll(".overall-review").forEach(section => {
-    const key = section.dataset.key;
-    const content = section.querySelector(".overall-content");
-    const btn = section.querySelector(".save-review");
+    const localKey = section.dataset.key;
+    const firebaseKey = REVIEW_MAP[localKey];
+    const contentDiv = section.querySelector(".overall-content");
+    const saveBtn = section.querySelector(".save-review");
 
-    const saved = localStorage.getItem(key);
-    if (saved) content.innerHTML = saved;
+    const dbRef = ref(db, `reviews/${firebaseKey}`);
 
-    btn.onclick = () => {
-        localStorage.setItem(key, content.innerHTML);
-        btn.textContent = "✅ Đã lưu";
-        setTimeout(() => btn.textContent = "💾 Lưu đánh giá", 1500);
-    };
+    // 🔴 REALTIME LISTEN
+    onValue(dbRef, snapshot => {
+        const data = snapshot.val();
+        if (data && data.content) {
+            contentDiv.innerHTML = data.content;
+        }
+    });
+
+    // 💾 SAVE
+    saveBtn.addEventListener("click", () => {
+        set(dbRef, {
+            content: contentDiv.innerHTML,
+            updatedAt: Date.now()
+        });
+        saveBtn.textContent = "✅ Đã lưu";
+        setTimeout(() => {
+            saveBtn.textContent = "💾 Lưu đánh giá";
+        }, 1500);
+    });
 });
+
 
 // ===== CAROUSEL – TỰ ĐỘNG 3 CARD DESKTOP / 2 CARD MOBILE =====
 document.querySelectorAll(".carousel-wrapper").forEach(wrapper => {
