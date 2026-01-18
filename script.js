@@ -62,34 +62,53 @@ document.querySelectorAll(".overall-review").forEach(section => {
     };
 });
 
-// ===== CAROUSEL – 3 CARD CỐ ĐỊNH =====
+// ===== CAROUSEL – TỰ ĐỘNG 3 CARD DESKTOP / 2 CARD MOBILE =====
 document.querySelectorAll(".carousel-wrapper").forEach(wrapper => {
     const container = wrapper.querySelector(".card-container");
     const prevBtn = wrapper.querySelector(".prev");
     const nextBtn = wrapper.querySelector(".next");
     const cards = container.children;
 
-    const visible = 3;
-    const total = cards.length;
     let index = 0;
 
-    if (total > visible) {
-        prevBtn.style.display = "block";
-        nextBtn.style.display = "block";
+    function getVisible() {
+        return window.innerWidth <= 768 ? 2 : 3;
+    }
+
+    function updateButtons(visible) {
+        if (cards.length > visible) {
+            prevBtn.style.display = "block";
+            nextBtn.style.display = "block";
+        } else {
+            prevBtn.style.display = "none";
+            nextBtn.style.display = "none";
+        }
     }
 
     function update() {
+        const visible = getVisible();
         const cardWidth = cards[0].offsetWidth + 20;
         container.style.transform = `translateX(-${index * cardWidth}px)`;
+        updateButtons(visible);
     }
 
     prevBtn.onclick = () => {
+        const visible = getVisible();
         index = Math.max(index - visible, 0);
         update();
     };
 
     nextBtn.onclick = () => {
-        index = Math.min(index + visible, total - visible);
+        const visible = getVisible();
+        index = Math.min(index + visible, cards.length - visible);
         update();
     };
+
+    // resize màn hình (xoay ngang / dọc)
+    window.addEventListener("resize", () => {
+        index = 0;
+        update();
+    });
+
+    update();
 });

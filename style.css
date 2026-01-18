@@ -201,10 +201,43 @@ h1 {
     background: rgba(0, 0, 0, 0.85);
 }
 
+
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
+
+    body {
+        padding: 12px;
+    }
+
+    /* 2 CARD / 1 MÀN HÌNH */
     .carousel-viewport .card {
-        flex: 0 0 100%;
-        max-width: 100%;
+        flex: 0 0 calc((100% - 20px) / 2);
+        max-width: calc((100% - 20px) / 2);
+    }
+
+    /* NÚT CAROUSEL TO & DỄ BẤM HƠN */
+    .carousel-btn {
+        font-size: 26px;
+        padding: 8px 14px;
+    }
+
+    .carousel-btn.prev {
+        left: -10px;
+    }
+
+    .carousel-btn.next {
+        right: -10px;
+    }
+
+    /* tooltip nhỏ gọn hơn */
+    .tooltip {
+        width: 200px;
+        font-size: 12px;
+    }
+
+    /* overall review gọn hơn */
+    .overall-review {
+        padding: 14px;
+        font-size: 14px;
     }
 }
