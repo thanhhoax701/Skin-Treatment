@@ -1,31 +1,5 @@
 {
   "cards": {
-    "center": {
-      "-Nxyz001": {
-        "dateKey": "08-01-2026",
-        "dateTime": "08/01/2026 - 17:30",
-        "imageUrl": "https://i.ibb.co/HD6gJCYC/C-08-01.jpg",
-        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm và mụn ẩn rải rác hai bên má                                         <br>                                         • Nhiều thâm đỏ và thâm nâu                                         <br>                                         • Mụn tập trung vùng cằm                                         <br>                                         • Da không đều, sần nhẹ                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang viêm hoạt động, chưa ổn định"
-      },
-      "-Nxyz002": {
-        "dateKey": "13-01-2026",
-        "dateTime": "13/01/2026 - 07:00",
-        "imageUrl": "https://i.ibb.co/35CtDqsX/C-13-01.jpg",
-        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm mới giảm rõ                                         <br>                                         • Thâm sau mụn còn nhiều                                         <br>                                         • Da bớt sần, mịn hơn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đáp ứng điều trị tốt, đang hồi phục"
-      },
-      "-Nxyz003": {
-        "dateKey": "18-01-2026",
-        "dateTime": "18/01/2026 - 07:00",
-        "imageUrl": "https://i.ibb.co/8L57tzz8/C-18-01.jpg",
-        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Ít mụn viêm mới                                         <br>                                         • Thâm rải rác, nhạt dần                                         <br>                                         • Da đều màu, bề mặt mịn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định rõ rệt, tiến triển tích cực"
-      },
-      "-Nxyz004": {
-        "dateKey": "20-01-2026",
-        "dateTime": "20/01/2026 - 07:00",
-        "imageUrl": "https://i.ibb.co/BVhCNfWN/C-20-01.jpg",
-        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Không còn mụn viêm lớn, chỉ còn mụn nhỏ lẻ rải rác.                                         <br>                                         • Thâm mụn và sẹo lõm nông thấy rõ hai bên má.                                         <br>                                         • Nền da tương đối ổn định, không đỏ viêm lan tỏa.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đã kiểm soát được mụn, đang ở giai đoạn hồi phục."
-      }
-    },
     "left": {
       "-Nxyz001": {
         "dateKey": "08-01-2026",
@@ -49,6 +23,12 @@
         "dateKey": "20-01-2026",
         "dateTime": "20/01/2026 - 07:00",
         "imageUrl": "https://i.ibb.co/fGktKQgK/L-20-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Còn 1 nốt mụn viêm sưng đỏ, viêm khu trú.                                         <br>                                         • Không bùng mụn mới, nền da chủ yếu là thâm + sẹo nông cũ.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định tương đối, không bùng phát, mụn đang trong giai đoạn chờ xẹp."
+      },
+      "-Nxyz005": {
+        "dateKey": "23-01-2026",
+        "dateTime": "23/01/2026 - 16:00",
+        "imageUrl": "https://i.ibb.co/7tVK8Rd2/L-23-01.jpg",
         "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Còn 1 nốt mụn viêm sưng đỏ, viêm khu trú.                                         <br>                                         • Không bùng mụn mới, nền da chủ yếu là thâm + sẹo nông cũ.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định tương đối, không bùng phát, mụn đang trong giai đoạn chờ xẹp."
       }
     },
@@ -76,6 +56,44 @@
         "dateTime": "20/01/2026 - 07:00",
         "imageUrl": "https://i.ibb.co/67B1Fjtk/C-20-01.jpg",
         "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Không có mụn viêm lớn, chỉ còn mụn nhỏ lẻ và thâm mụn rải rác.                                         <br>                                         • Nền da khá ổn định, còn sẹo nông cũ.                                         <br>                                         • Nền da tương đối ổn định, không đỏ viêm lan tỏa.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang hồi phục tốt, không bùng phát, mụn đã được kiểm soát."
+      },
+      "-Nxyz005": {
+        "dateKey": "23-01-2026",
+        "dateTime": "23/01/2026 - 16:00",
+        "imageUrl": "https://i.ibb.co/HDLJbTGW/R-23-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Không có mụn viêm lớn, chỉ còn mụn nhỏ lẻ và thâm mụn rải rác.                                         <br>                                         • Nền da khá ổn định, còn sẹo nông cũ.                                         <br>                                         • Nền da tương đối ổn định, không đỏ viêm lan tỏa.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang hồi phục tốt, không bùng phát, mụn đã được kiểm soát."
+      }
+    },
+    "center": {
+      "-Nxyz001": {
+        "dateKey": "08-01-2026",
+        "dateTime": "08/01/2026 - 17:30",
+        "imageUrl": "https://i.ibb.co/HD6gJCYC/C-08-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm và mụn ẩn rải rác hai bên má                                         <br>                                         • Nhiều thâm đỏ và thâm nâu                                         <br>                                         • Mụn tập trung vùng cằm                                         <br>                                         • Da không đều, sần nhẹ                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đang viêm hoạt động, chưa ổn định"
+      },
+      "-Nxyz002": {
+        "dateKey": "13-01-2026",
+        "dateTime": "13/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/35CtDqsX/C-13-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Mụn viêm mới giảm rõ                                         <br>                                         • Thâm sau mụn còn nhiều                                         <br>                                         • Da bớt sần, mịn hơn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đáp ứng điều trị tốt, đang hồi phục"
+      },
+      "-Nxyz003": {
+        "dateKey": "18-01-2026",
+        "dateTime": "18/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/8L57tzz8/C-18-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Ít mụn viêm mới                                         <br>                                         • Thâm rải rác, nhạt dần                                         <br>                                         • Da đều màu, bề mặt mịn                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da ổn định rõ rệt, tiến triển tích cực"
+      },
+      "-Nxyz004": {
+        "dateKey": "20-01-2026",
+        "dateTime": "20/01/2026 - 07:00",
+        "imageUrl": "https://i.ibb.co/BVhCNfWN/C-20-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Không còn mụn viêm lớn, chỉ còn mụn nhỏ lẻ rải rác.                                         <br>                                         • Thâm mụn và sẹo lõm nông thấy rõ hai bên má.                                         <br>                                         • Nền da tương đối ổn định, không đỏ viêm lan tỏa.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đã kiểm soát được mụn, đang ở giai đoạn hồi phục."
+      },
+      "-Nxyz005": {
+        "dateKey": "23-01-2026",
+        "dateTime": "23/01/2026 - 16:00",
+        "imageUrl": "https://i.ibb.co/hxdNKD1Y/C-23-01.jpg",
+        "statusHtml": "<strong>Tình trạng:</strong>                                         <br>                                         • Không còn mụn viêm lớn, chỉ còn mụn nhỏ lẻ rải rác.                                         <br>                                         • Thâm mụn và sẹo lõm nông thấy rõ hai bên má.                                         <br>                                         • Nền da tương đối ổn định, không đỏ viêm lan tỏa.                                         <br>                                         <br>                                         <strong>Đánh giá:</strong>                                         <br>                                         Da đã kiểm soát được mụn, đang ở giai đoạn hồi phục."
       }
     }
   },
