@@ -104,19 +104,19 @@
   },
   "reviews": {
     "center": {
-      "title": "Đánh giá tổng thể – Mặt Chính Diện",
       "content": "\n                        <ul>\n                            <li>- Mụn viêm giảm rõ rệt: từ nhiều mụn viêm, mụn đỏ rải rác (08/01) → không còn mụn viêm lớn, chỉ còn mụn nhỏ lẻ (23/01).</li><li>- Không xuất hiện mụn viêm mới, tình trạng viêm được kiểm soát tốt.</li><li>- Đỏ viêm lan tỏa giảm, da đều màu và ổn định hơn.</li><li>- Thâm mụn và sẹo lõm nông vẫn còn, rõ hơn ở vùng má và cằm.</li></ul><p><br></p><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận:</h2><div><p>- Da mặt chính diện đáp ứng điều trị tốt.</p><p>- Mụn viêm đã được kiểm soát.</p><p>- Giai đoạn tiếp theo nên tập trung phục hồi da và giảm thâm, chưa cần can thiệp mạnh.</p></div>\n                    ",
-      "updatedAt": 1769223517742
+      "title": "Đánh giá tổng thể – Mặt Chính Diện từ 08/01 - 23/01",
+      "updatedAt": 1769224562508
     },
     "left": {
-      "title": "Đánh giá tổng thể – Mặt Trái",
       "content": "\n                        <ul>\n                            <li>- Mụn viêm giảm rõ rệt qua từng giai đoạn; từ viêm lan tỏa, nhiều nốt hoạt động (08/01) → còn viêm khu trú 1 nốt (23/01).</li><li>- Không xuất hiện mụn viêm lớn mới; mức độ đỏ viêm lan tỏa giảm.</li><li>- Nền da ổn định hơn, ít kích ứng; bề mặt da cải thiện dần.</li><li>- Thâm mụn và sẹo lõm nông còn hiện rõ (di chứng), là vấn đề chính hiện tại.</li><li><br></li></ul><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận:</h2><div><p>- Đáp ứng điều trị <strong data-start=\"437\" data-end=\"444\">tốt</strong>. Mặt trái đã kiểm soát được mụn viêm.</p><p>- Giai đoạn tiếp theo nên <strong data-start=\"507\" data-end=\"545\">tập trung phục hồi da và giảm thâm</strong>.</p></div>\n                    ",
-      "updatedAt": 1769223705550
+      "title": "Đánh giá tổng thể – Mặt Trái từ 08/01 - 23/01",
+      "updatedAt": 1769224579461
     },
     "right": {
-      "title": "Đánh giá tổng thể – Mặt Phải",
       "content": "\n                        <ul data-start=\"712\" data-end=\"776\">\n                            <li>- Mụn viêm giảm rõ rệt theo thời gian; từ nhiều nốt viêm rải rác (08/01) xuống còn rất ít nốt nhỏ (23/01).</li><li data-start=\"133\" data-end=\"181\"><p data-start=\"135\" data-end=\"181\">- Không xuất hiện mụn viêm lớn mới, tình trạng viêm được kiểm soát.</p><p data-start=\"135\" data-end=\"181\">- Đỏ viêm lan tỏa giảm, da bớt kích ứng và ổn định hơn.</p><p data-start=\"135\" data-end=\"181\">- Thâm mụn và sẹo lõm nông vẫn còn, là tồn dư sau viêm.</p></li><li data-start=\"184\" data-end=\"221\">\n</li><li data-start=\"184\" data-end=\"221\"><p data-start=\"186\" data-end=\"221\"><br></p></li>\n</ul><ul data-start=\"656\" data-end=\"776\"><li data-start=\"695\" data-end=\"776\">\n</li>\n</ul><hr data-start=\"778\" data-end=\"781\"><h2 data-start=\"783\" data-end=\"800\">Kết luận:</h2><p>\n\n\n\n\n\n\n\n\n\n\n</p><ul data-start=\"822\" data-end=\"892\">\n<li data-start=\"822\" data-end=\"839\">\n<p data-start=\"824\" data-end=\"839\">- Mặt phải đáp ứng điều trị <strong data-start=\"405\" data-end=\"412\">tốt</strong>, đã kiểm soát mụn viêm.&nbsp;</p></li><li data-start=\"822\" data-end=\"839\"><p data-start=\"824\" data-end=\"839\">- Giai đoạn tiếp theo nên <strong data-start=\"461\" data-end=\"499\">tập trung phục hồi da và giảm thâm</strong>, chưa cần can thiệp mạnh.</p></li></ul>\n                    ",
-      "updatedAt": 1769223466496
+      "title": "Đánh giá tổng thể – Mặt Phải từ 08/01 - 23/01",
+      "updatedAt": 1769224571295
     }
   }
 }
