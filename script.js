@@ -1,4 +1,4 @@
-import { db, ref, onValue, set } from "./firebase.js";
+import { db, ref, onValue, set, get } from "./firebase.js";
 
 /* =====================================================
    NOTIFICATION
@@ -8,33 +8,46 @@ function showNotification(message) {
 }
 
 /* =====================================================
-   ACCORDION (FIX ASYNC HEIGHT)
+   ACCORDION (FIX - DIRECT CLICK)
 ===================================================== */
-document.querySelectorAll(".accordion-header").forEach(header => {
-    header.onclick = () => {
-        const item = header.parentElement;
-        const content = item.querySelector(".accordion-content");
+function initAccordion() {
+    const headers = document.querySelectorAll(".accordion-header");
+    console.log("🔍 Accordion headers found:", headers.length);
 
-        document.querySelectorAll(".accordion-item").forEach(i => {
-            if (i !== item) {
-                i.classList.remove("active");
-                i.querySelector(".accordion-content").style.height = "0px";
+    headers.forEach((header, idx) => {
+        console.log(`Header ${idx}:`, header.textContent);
+        header.addEventListener("click", (e) => {
+            console.log("✅ ACCORDION CLICKED:", header.textContent);
+            e.stopPropagation();
+            e.preventDefault();
+
+            const item = header.parentElement;
+            const content = item.querySelector(".accordion-content");
+
+            document.querySelectorAll(".accordion-item").forEach(i => {
+                if (i !== item) {
+                    i.classList.remove("active");
+                    i.querySelector(".accordion-content").style.height = "0px";
+                }
+            });
+
+            if (item.classList.contains("active")) {
+                item.classList.remove("active");
+                content.style.height = "0px";
+            } else {
+                item.classList.add("active");
+                content.style.height = content.scrollHeight + "px";
             }
         });
+    });
+}
 
-        if (item.classList.contains("active")) {
-            item.classList.remove("active");
-            content.style.height = "0px";
-        } else {
-            item.classList.add("active");
-            content.style.height = content.scrollHeight + "px";
-        }
-    };
-});
-
-/* =====================================================
-   IMAGE MODAL (ZOOM)
-===================================================== */
+// Initialize accordion when DOM is ready
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAccordion);
+} else {
+    initAccordion();
+}
 const imageModal = document.createElement("div");
 imageModal.className = "image-modal";
 imageModal.innerHTML = `
@@ -101,7 +114,104 @@ document.getElementById("cancel-edit").onclick = () => {
     editModal.classList.remove("active");
 };
 
-document.getElementById("save-edit").onclick = () => {
+/* =====================================================
+   HISTORY MODAL
+===================================================== */
+const historyModal = document.createElement("div");
+historyModal.className = "edit-modal";
+historyModal.innerHTML = `
+<div class="edit-box">
+    <h3>📋 Lịch sử chỉnh sửa</h3>
+    <div id="history-content" style="max-height:300px;overflow-y:auto;border:1px solid #ddd;padding:10px;border-radius:6px;">
+        <p style="color:#999;">Không có lịch sử</p>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;">
+        <button id="close-history" style="flex:1;padding:6px 12px;background:#4CAF50;color:#fff;border:none;border-radius:6px;cursor:pointer;">Đóng</button>
+        <button id="delete-history" style="flex:1;padding:6px 12px;background:#f44336;color:#fff;border:none;border-radius:6px;cursor:pointer;">🗑️ Xóa lịch sử</button>
+    </div>
+</div>
+`;
+document.body.appendChild(historyModal);
+
+let currentHistoryTarget = null;
+
+document.getElementById("close-history").onclick = () => {
+    historyModal.classList.remove("active");
+    currentHistoryTarget = null;
+};
+
+document.getElementById("delete-history").onclick = () => {
+    if (!currentHistoryTarget) return;
+
+    const { type, side, id } = currentHistoryTarget;
+
+    // Check if history is empty
+    const historyContent = document.getElementById("history-content").innerText;
+    if (historyContent.includes("Không có lịch sử")) {
+        alert("⚠️ Lịch sử trống, không có gì để xóa!");
+        return;
+    }
+
+    if (!confirm("Bạn có chắc muốn xóa lịch sử chỉnh sửa?")) return;
+
+    if (type === "card") {
+        // Chỉ xóa editHistory, giữ lại dữ liệu card
+        const ref_ = ref(db, `cards/${side}/${id}/editHistory`);
+        set(ref_, null).then(() => {
+            // Reload history content để show "Không có lịch sử"
+            const cardRef = ref(db, `cards/${side}/${id}`);
+            onValue(cardRef, snap => {
+                const card = snap.val();
+                const historyContent = document.getElementById("history-content");
+
+                if (card?.editHistory && card.editHistory.length > 0) {
+                    historyContent.innerHTML = card.editHistory.map((entry, idx) => {
+                        const timeStr = new Date(entry.timestamp).toLocaleString("vi-VN");
+                        return `
+                            <div style="padding:10px;border-bottom:1px solid #eee;margin-bottom:10px;">
+                                <strong>Lần ${idx + 1}:</strong> ${timeStr}<br>
+                                <small><strong>Ngày:</strong> ${entry.dateTime}</small>
+                            </div>
+                        `;
+                    }).join("");
+                } else {
+                    historyContent.innerHTML = "<p style='color:#999;'>Không có lịch sử</p>";
+                }
+            }, { once: true });
+
+            showNotification("✅ Đã xóa lịch sử!");
+        });
+    } else if (type === "review") {
+        // Chỉ xóa editHistory của review, giữ lại content và title
+        const ref_ = ref(db, `reviews/${side}/editHistory`);
+        set(ref_, null).then(() => {
+            // Reload history content để show "Không có lịch sử"
+            const reviewRef = ref(db, `reviews/${side}`);
+            onValue(reviewRef, snap => {
+                const review = snap.val();
+                const historyContent = document.getElementById("history-content");
+
+                if (review?.editHistory && review.editHistory.length > 0) {
+                    historyContent.innerHTML = review.editHistory.map((entry, idx) => {
+                        const timeStr = new Date(entry.timestamp).toLocaleString("vi-VN");
+                        return `
+                            <div style="padding:10px;border-bottom:1px solid #eee;margin-bottom:10px;">
+                                <strong>Lần ${idx + 1}:</strong> ${timeStr}<br>
+                                <small><strong>Ngày:</strong> ${entry.updatedAt ? new Date(entry.updatedAt).toLocaleString("vi-VN") : "N/A"}</small>
+                            </div>
+                        `;
+                    }).join("");
+                } else {
+                    historyContent.innerHTML = "<p style='color:#999;'>Không có lịch sử</p>";
+                }
+            }, { once: true });
+
+            showNotification("✅ Đã xóa lịch sử!");
+        });
+    }
+};
+
+document.getElementById("save-edit").onclick = async () => {
     if (!currentEdit) return;
 
     const { side, id } = currentEdit;
@@ -119,17 +229,40 @@ document.getElementById("save-edit").onclick = () => {
     // Lấy dateKey từ input dateTime (phần trước " - ")
     const dateKeyValue = dateTimeValue.split(" - ")[0].trim();
 
-    set(ref(db, `cards/${side}/${id}`), {
-        imageUrl: finalImageUrl,
+    // Tạo history entry
+    const newHistoryEntry = {
+        timestamp: Date.now(),
         dateTime: dateTimeValue,
         statusHtml: statusValue,
-        dateKey: dateKeyValue,
-        createdAt: Date.now()
-    });
+        imageUrl: finalImageUrl
+    };
 
-    imageDataUrl = null;
-    editModal.classList.remove("active");
-    showNotification("✅ Đã lưu card!");
+    try {
+        // Lấy card cũ để merge history
+        const cardRef = ref(db, `cards/${side}/${id}`);
+
+        // Dùng get() thay vì onValue để lấy data một lần
+        const snapshot = await get(cardRef);
+        const oldCard = snapshot.val();
+        const oldHistory = (oldCard?.editHistory || []);
+        const newHistory = [...oldHistory, newHistoryEntry];
+
+        await set(cardRef, {
+            imageUrl: finalImageUrl,
+            dateTime: dateTimeValue,
+            statusHtml: statusValue,
+            dateKey: dateKeyValue,
+            editHistory: newHistory,
+            createdAt: oldCard?.createdAt || Date.now()
+        });
+
+        imageDataUrl = null;
+        editModal.classList.remove("active");
+        showNotification("✅ Đã lưu card!");
+    } catch (error) {
+        console.error("Lỗi khi lưu:", error);
+        alert("Lỗi khi lưu dữ liệu!");
+    }
 };
 
 /* =====================================================
@@ -154,12 +287,56 @@ document.querySelectorAll(".overall-review").forEach(section => {
     });
 
     btn.onclick = () => {
-        set(reviewRef, {
-            title: title.textContent,
-            content: content.innerHTML,
-            updatedAt: Date.now()
-        });
-        showNotification("✅ Đã lưu đánh giá!");
+        const reviewRef = ref(db, `reviews/${side}`);
+
+        // Lấy review cũ để merge history
+        onValue(reviewRef, snap => {
+            const oldReview = snap.val();
+            const oldHistory = (oldReview?.editHistory || []);
+
+            const newHistoryEntry = {
+                timestamp: Date.now(),
+                content: content.innerHTML,
+                title: title.textContent
+            };
+
+            const newHistory = [...oldHistory, newHistoryEntry];
+
+            set(reviewRef, {
+                title: title.textContent,
+                content: content.innerHTML,
+                editHistory: newHistory,
+                updatedAt: Date.now()
+            });
+            showNotification("✅ Đã lưu đánh giá!");
+        }, { once: true });
+    };
+
+    // View history button for review
+    const historyBtn = section.querySelector(".view-review-history");
+    historyBtn.onclick = () => {
+        currentHistoryTarget = { type: "review", side };
+
+        onValue(reviewRef, snap => {
+            const review = snap.val();
+            const historyContent = document.getElementById("history-content");
+
+            if (review?.editHistory && review.editHistory.length > 0) {
+                historyContent.innerHTML = review.editHistory.map((entry, idx) => {
+                    const timeStr = new Date(entry.timestamp).toLocaleString("vi-VN");
+                    return `
+                        <div style="padding:10px;border-bottom:1px solid #eee;margin-bottom:10px;">
+                            <strong>Lần ${idx + 1}:</strong> ${timeStr}<br>
+                            <small><strong>Tiêu đề:</strong> ${entry.title}</small>
+                        </div>
+                    `;
+                }).join("");
+            } else {
+                historyContent.innerHTML = "<p style='color:#999;'>Không có lịch sử</p>";
+            }
+
+            historyModal.classList.add("active");
+        }, { once: true });
     };
 });
 
@@ -179,8 +356,9 @@ function renderCard(card, id, side) {
             </div>
         </div>
 
-        <div class="card-actions">
-            <button class="edit-card-btn">✏️ Chỉnh sửa</button>
+        <div class="card-actions" style="display:flex;gap:8px;">
+            <button class="edit-card-btn" style="flex:1;">✏️ Chỉnh sửa</button>
+            <button class="view-history-btn" style="flex:1;background:#2196F3;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;">📋 Lịch sử</button>
         </div>
     </div>`;
 }
@@ -226,6 +404,39 @@ document.addEventListener("click", e => {
     if (img) {
         imageModal.querySelector("img").src = img.src;
         imageModal.classList.add("active");
+        return;
+    }
+
+    // View history button
+    const historyBtn = e.target.closest(".view-history-btn");
+    if (historyBtn) {
+        const wrap = historyBtn.closest(".card-wrapper");
+        const side = wrap.dataset.side;
+        const id = wrap.dataset.id;
+
+        currentHistoryTarget = { type: "card", side, id };
+
+        const cardRef = ref(db, `cards/${side}/${id}`);
+        onValue(cardRef, snap => {
+            const card = snap.val();
+            const historyContent = document.getElementById("history-content");
+
+            if (card?.editHistory && card.editHistory.length > 0) {
+                historyContent.innerHTML = card.editHistory.map((entry, idx) => {
+                    const timeStr = new Date(entry.timestamp).toLocaleString("vi-VN");
+                    return `
+                        <div style="padding:10px;border-bottom:1px solid #eee;margin-bottom:10px;">
+                            <strong>Lần ${idx + 1}:</strong> ${timeStr}<br>
+                            <small><strong>Ngày:</strong> ${entry.dateTime}</small>
+                        </div>
+                    `;
+                }).join("");
+            } else {
+                historyContent.innerHTML = "<p style='color:#999;'>Không có lịch sử</p>";
+            }
+
+            historyModal.classList.add("active");
+        }, { once: true });
         return;
     }
 });
