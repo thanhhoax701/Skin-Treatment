@@ -286,11 +286,12 @@ document.querySelectorAll(".overall-review").forEach(section => {
         }
     });
 
-    btn.onclick = () => {
-        const reviewRef = ref(db, `reviews/${side}`);
+    btn.onclick = async () => {
+        try {
+            const reviewRef = ref(db, `reviews/${side}`);
 
-        // Lấy review cũ để merge history
-        onValue(reviewRef, snap => {
+            // ✅ LẤY DATA 1 LẦN – KHÔNG TẠO LISTENER
+            const snap = await get(reviewRef);
             const oldReview = snap.val();
             const oldHistory = (oldReview?.editHistory || []);
 
@@ -302,15 +303,20 @@ document.querySelectorAll(".overall-review").forEach(section => {
 
             const newHistory = [...oldHistory, newHistoryEntry];
 
-            set(reviewRef, {
+            await set(reviewRef, {
                 title: title.textContent,
                 content: content.innerHTML,
                 editHistory: newHistory,
                 updatedAt: Date.now()
             });
+
             showNotification("✅ Đã lưu đánh giá!");
-        }, { once: true });
+        } catch (err) {
+            console.error("Lỗi khi lưu đánh giá:", err);
+            alert("❌ Lỗi khi lưu đánh giá");
+        }
     };
+
 
     // View history button for review
     const historyBtn = section.querySelector(".view-review-history");

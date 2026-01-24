@@ -154,7 +154,6 @@ h1 {
 }
 
 .save-review {
-    margin-top: 10px;
     padding: 6px 12px;
     background: #4CAF50;
     color: #fff;
@@ -287,4 +286,110 @@ h1 {
         flex: 0 0 calc((100% - 20px) / 2);
         max-width: calc((100% - 20px) / 2);
     }
+}
+
+/* =====================================================
+   FIX BUTTON OVERALL REVIEW (LƯU ĐÁNH GIÁ / LỊCH SỬ)
+===================================================== */
+
+/* Container của 2 nút */
+.overall-review>div {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+/* Style chung cho cả 2 nút */
+.overall-review button {
+    flex: 1;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 0;
+    /* fix lệch chiều cao */
+    line-height: 1;
+}
+
+/* Nút lưu đánh giá */
+.save-review {
+    background: #4CAF50;
+    color: #fff;
+}
+
+/* Nút lịch sử */
+.view-review-history {
+    background: #2196F3;
+    color: #fff;
+}
+
+/* Hover nhẹ cho đẹp */
+.overall-review button:hover {
+    opacity: 0.9;
+}
+
+/* Active (bấm) */
+.overall-review button:active {
+    transform: translateY(1px);
+}
+
+/* Mobile: nếu muốn nút to hơn */
+@media (max-width: 768px) {
+    .overall-review button {
+        height: 48px;
+        font-size: 15px;
+    }
+}
+
+/* =====================================================
+   FORCE OVERALL REVIEW LAYOUT: TRÊN → DƯỚI
+===================================================== */
+
+/* Ép toàn bộ nội dung về 1 cột */
+.overall-content {
+    display: block !important;
+    column-count: 1 !important;
+    column-gap: 0 !important;
+}
+
+/* Nếu có table / flex bên trong → phá layout */
+.overall-content table,
+.overall-content tbody,
+.overall-content tr,
+.overall-content td,
+.overall-content th,
+.overall-content div {
+    display: block;
+    width: 100%;
+}
+
+/* Dòng kết luận luôn xuống dòng */
+.overall-content strong {
+    display: block;
+    margin-top: 12px;
+}
+
+/* Nếu có đường kẻ dọc → đổi thành ngang */
+.overall-content hr {
+    width: 100%;
+    height: 1px;
+    margin: 12px 0;
+}
+
+/* List hiển thị theo chiều dọc */
+.overall-content ul,
+.overall-content ol {
+    padding-left: 18px;
+}
+
+.overall-content li {
+    margin-bottom: 6px;
 }
