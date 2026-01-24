@@ -62,6 +62,9 @@ editModal.innerHTML = `
 <div class="edit-box">
     <h3>✏️ Chỉnh sửa card</h3>
 
+    <label>Tiêu đề</label>
+    <input type="text" id="edit-title">
+
     <label>Thời gian</label>
     <input type="text" id="edit-date">
 
@@ -105,10 +108,11 @@ document.getElementById("save-edit").onclick = () => {
     if (!currentEdit) return;
 
     const { side, id } = currentEdit;
+    const titleValue = document.getElementById("edit-title").value.trim();
     const dateTimeValue = document.getElementById("edit-date").value.trim();
     const statusValue = document.getElementById("edit-status").value.trim();
 
-    if (!dateTimeValue || !statusValue) {
+    if (!titleValue || !dateTimeValue || !statusValue) {
         alert("Vui lòng điền đầy đủ thông tin!");
         return;
     }
@@ -120,6 +124,7 @@ document.getElementById("save-edit").onclick = () => {
     const dateKeyValue = dateTimeValue.split(" - ")[0].trim();
 
     set(ref(db, `cards/${side}/${id}`), {
+        title: titleValue,
         imageUrl: finalImageUrl,
         dateTime: dateTimeValue,
         statusHtml: statusValue,
@@ -137,19 +142,25 @@ document.getElementById("save-edit").onclick = () => {
 ===================================================== */
 document.querySelectorAll(".overall-review").forEach(section => {
     const side = section.dataset.key;
+    const title = section.querySelector("h3");
     const content = section.querySelector(".overall-content");
     const btn = section.querySelector(".save-review");
 
     const reviewRef = ref(db, `reviews/${side}`);
 
     onValue(reviewRef, snap => {
-        if (snap.val()?.content) {
-            content.innerHTML = snap.val().content;
+        const data = snap.val();
+        if (data?.title) {
+            title.textContent = data.title;
+        }
+        if (data?.content) {
+            content.innerHTML = data.content;
         }
     });
 
     btn.onclick = () => {
         set(reviewRef, {
+            title: title.textContent,
             content: content.innerHTML,
             updatedAt: Date.now()
         });
@@ -239,8 +250,11 @@ document.addEventListener("click", e => {
         side: wrap.dataset.side,
         imageUrl: wrap.querySelector("img").src,
         dateTime: dateText,
-        dateKey: dateText.split(" - ")[0].trim()
+        dateKey: dateText.split(" - ")[0].trim(),
+        title: wrap.dataset.title || ""
     };
+
+    document.getElementById("edit-title").value = currentEdit.title;
 
     document.getElementById("edit-date").value = dateText;
 
