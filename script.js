@@ -1,6 +1,13 @@
 import { db, ref, onValue, set } from "./firebase.js";
 
 /* =====================================================
+   NOTIFICATION
+===================================================== */
+function showNotification(message) {
+    alert(message);
+}
+
+/* =====================================================
    ACCORDION (FIX ASYNC HEIGHT)
 ===================================================== */
 document.querySelectorAll(".accordion-header").forEach(header => {
@@ -122,6 +129,7 @@ document.getElementById("save-edit").onclick = () => {
 
     imageDataUrl = null;
     editModal.classList.remove("active");
+    showNotification("✅ Đã lưu card!");
 };
 
 /* =====================================================
@@ -145,6 +153,7 @@ document.querySelectorAll(".overall-review").forEach(section => {
             content: content.innerHTML,
             updatedAt: Date.now()
         });
+        showNotification("✅ Đã lưu đánh giá!");
     };
 });
 
