@@ -1,186 +1,289 @@
 import { db, ref, onValue, set } from "./firebase.js";
 
 /* =====================================================
-   ACCORDION
+   ACCORDION (FIX ASYNC HEIGHT)
 ===================================================== */
 document.querySelectorAll(".accordion-header").forEach(header => {
-    header.addEventListener("click", () => {
+    header.onclick = () => {
         const item = header.parentElement;
         const content = item.querySelector(".accordion-content");
 
-        if (item.classList.contains("active")) {
-            content.style.height = "0px";
-            item.classList.remove("active");
-        } else {
-            document.querySelectorAll(".accordion-item").forEach(i => {
+        document.querySelectorAll(".accordion-item").forEach(i => {
+            if (i !== item) {
                 i.classList.remove("active");
                 i.querySelector(".accordion-content").style.height = "0px";
-            });
+            }
+        });
+
+        if (item.classList.contains("active")) {
+            item.classList.remove("active");
+            content.style.height = "0px";
+        } else {
             item.classList.add("active");
+            content.style.height = content.scrollHeight + "px";
+        }
+    };
+});
+
+/* =====================================================
+   IMAGE MODAL (ZOOM)
+===================================================== */
+const imageModal = document.createElement("div");
+imageModal.className = "image-modal";
+imageModal.innerHTML = `
+<span class="close-btn">✕</span>
+<img>
+`;
+document.body.appendChild(imageModal);
+
+imageModal.querySelector(".close-btn").onclick = () => {
+    imageModal.classList.remove("active");
+};
+
+imageModal.onclick = e => {
+    if (e.target === imageModal) {
+        imageModal.classList.remove("active");
+    }
+};
+
+/* =====================================================
+   EDIT MODAL
+===================================================== */
+const editModal = document.createElement("div");
+editModal.className = "edit-modal";
+editModal.innerHTML = `
+<div class="edit-box">
+    <h3>✏️ Chỉnh sửa card</h3>
+
+    <label>Thời gian</label>
+    <input type="text" id="edit-date">
+
+    <label>Chọn ảnh</label>
+    <input type="file" id="edit-image-file" accept="image/*">
+    <div id="image-preview"></div>
+
+    <label>Tình trạng</label>
+    <textarea id="edit-status"></textarea>
+
+    <div style="margin-top:10px;display:flex;justify-content:space-between;gap:6px">
+        <button id="save-edit" style="flex:1;padding:6px;font-size:13px">💾 Lưu</button>
+        <button id="cancel-edit" style="flex:1;padding:6px;font-size:13px">❌ Hủy</button>
+    </div>
+</div>
+`;
+document.body.appendChild(editModal);
+
+// Handle file input change
+let imageDataUrl = null;
+document.getElementById("edit-image-file").onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        imageDataUrl = event.target.result;
+        const preview = document.getElementById("image-preview");
+        preview.innerHTML = `<img src="${imageDataUrl}" style="max-width:100%;border-radius:6px;">`;
+    };
+    reader.readAsDataURL(file);
+};
+
+let currentEdit = null;
+
+document.getElementById("cancel-edit").onclick = () => {
+    editModal.classList.remove("active");
+};
+
+document.getElementById("save-edit").onclick = () => {
+    if (!currentEdit) return;
+
+    const { side, id } = currentEdit;
+    const dateTimeValue = document.getElementById("edit-date").value.trim();
+    const statusValue = document.getElementById("edit-status").value.trim();
+
+    if (!dateTimeValue || !statusValue) {
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    // Nếu chọn file mới thì dùng imageDataUrl, nếu không thì dùng ảnh cũ
+    const finalImageUrl = imageDataUrl || currentEdit.imageUrl;
+
+    // Lấy dateKey từ input dateTime (phần trước " - ")
+    const dateKeyValue = dateTimeValue.split(" - ")[0].trim();
+
+    set(ref(db, `cards/${side}/${id}`), {
+        imageUrl: finalImageUrl,
+        dateTime: dateTimeValue,
+        statusHtml: statusValue,
+        dateKey: dateKeyValue,
+        createdAt: Date.now()
+    });
+
+    imageDataUrl = null;
+    editModal.classList.remove("active");
+};
+
+/* =====================================================
+   OVERALL REVIEW
+===================================================== */
+document.querySelectorAll(".overall-review").forEach(section => {
+    const side = section.dataset.key;
+    const content = section.querySelector(".overall-content");
+    const btn = section.querySelector(".save-review");
+
+    const reviewRef = ref(db, `reviews/${side}`);
+
+    onValue(reviewRef, snap => {
+        if (snap.val()?.content) {
+            content.innerHTML = snap.val().content;
+        }
+    });
+
+    btn.onclick = () => {
+        set(reviewRef, {
+            content: content.innerHTML,
+            updatedAt: Date.now()
+        });
+    };
+});
+
+/* =====================================================
+   RENDER CARD (CARD + ACTION RIÊNG)
+===================================================== */
+function renderCard(card, id, side) {
+    return `
+    <div class="card-wrapper" data-id="${id}" data-side="${side}">
+        <div class="card">
+            <div class="card-image">
+                <img src="${card.imageUrl}">
+            </div>
+            <div class="card-info">
+                <span class="date">${card.dateTime || ""}</span>
+                <div class="tooltip">${card.statusHtml || ""}</div>
+            </div>
+        </div>
+
+        <div class="card-actions">
+            <button class="edit-card-btn">✏️ Chỉnh sửa</button>
+        </div>
+    </div>`;
+}
+
+/* =====================================================
+   LOAD CARD FROM FIREBASE (REALTIME + FIX HEIGHT)
+===================================================== */
+document.querySelectorAll(".card-container").forEach(container => {
+    const side = container.dataset.side;
+    const cardsRef = ref(db, `cards/${side}`);
+
+    onValue(cardsRef, snap => {
+        container.innerHTML = "";
+
+        const data = snap.val();
+        if (!data) return;
+
+        Object.entries(data)
+            .sort((a, b) => a[1].createdAt - b[1].createdAt)
+            .forEach(([id, card]) => {
+                container.insertAdjacentHTML(
+                    "beforeend",
+                    renderCard(card, id, side)
+                );
+            });
+
+        initCarousel(container.closest(".carousel-wrapper"));
+
+        /* 🔥 FIX MẤT CARD DO ACCORDION HEIGHT */
+        const accordion = container.closest(".accordion-item");
+        if (accordion.classList.contains("active")) {
+            const content = accordion.querySelector(".accordion-content");
             content.style.height = content.scrollHeight + "px";
         }
     });
 });
 
 /* =====================================================
-   IMAGE MODAL (FULLSCREEN)
+   CLICK IMAGE (ZOOM)
 ===================================================== */
-const modal = document.createElement("div");
-modal.className = "image-modal";
-modal.innerHTML = `
-    <span class="close-btn">✕</span>
-    <img>
-`;
-document.body.appendChild(modal);
-
-const modalImg = modal.querySelector("img");
-const closeBtn = modal.querySelector(".close-btn");
-
-closeBtn.onclick = e => {
-    e.stopPropagation();
-    modal.classList.remove("active");
-};
-
-modal.onclick = () => modal.classList.remove("active");
-
-function bindImageModal(scope = document) {
-    scope.querySelectorAll(".card-image img").forEach(img => {
-        img.onclick = () => {
-            modalImg.src = img.src;
-            modal.classList.add("active");
-        };
-    });
-}
+document.addEventListener("click", e => {
+    const img = e.target.closest(".card-image img");
+    if (img) {
+        imageModal.querySelector("img").src = img.src;
+        imageModal.classList.add("active");
+        return;
+    }
+});
 
 /* =====================================================
-   OVERALL REVIEW – FIREBASE REALTIME
+   CLICK EDIT (TÁCH BIỆT – KHÔNG BỊ CHẶN)
 ===================================================== */
-const REVIEW_MAP = {
-    "overall-left": "left",
-    "overall-right": "right",
-    "overall-front": "front"
-};
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".edit-card-btn");
+    if (!btn) return;
 
-document.querySelectorAll(".overall-review").forEach(section => {
-    const localKey = section.dataset.key;
-    const firebaseKey = REVIEW_MAP[localKey];
-    const contentDiv = section.querySelector(".overall-content");
-    const saveBtn = section.querySelector(".save-review");
+    const wrap = btn.closest(".card-wrapper");
+    const dateText = wrap.querySelector(".date").innerText;
 
-    const reviewRef = ref(db, `reviews/${firebaseKey}`);
-
-    // realtime load
-    onValue(reviewRef, snap => {
-        const data = snap.val();
-        if (data?.content) {
-            contentDiv.innerHTML = data.content;
-        }
-    });
-
-    // save
-    saveBtn.onclick = () => {
-        set(reviewRef, {
-            content: contentDiv.innerHTML,
-            updatedAt: Date.now()
-        });
-        saveBtn.textContent = "✅ Đã lưu";
-        setTimeout(() => saveBtn.textContent = "💾 Lưu đánh giá", 1500);
+    currentEdit = {
+        id: wrap.dataset.id,
+        side: wrap.dataset.side,
+        imageUrl: wrap.querySelector("img").src,
+        dateTime: dateText,
+        dateKey: dateText.split(" - ")[0].trim()
     };
+
+    document.getElementById("edit-date").value = dateText;
+
+    // Reset file input
+    document.getElementById("edit-image-file").value = "";
+    document.getElementById("image-preview").innerHTML = `<img src="${currentEdit.imageUrl}" style="max-width:100%;border-radius:6px;">`;
+    imageDataUrl = null;
+
+    document.getElementById("edit-status").value =
+        wrap.querySelector(".tooltip").innerHTML;
+
+    editModal.classList.add("active");
 });
 
 /* =====================================================
-   RENDER CARD
-===================================================== */
-function renderCard(card) {
-    if (!card) return "";
-
-    return `
-    <div class="card">
-        <div class="card-image">
-            <img src="${card.imageUrl || ""}" alt="">
-        </div>
-        <div class="card-info">
-            <span class="date">${card.dateTime || ""}</span>
-            <div class="tooltip">
-                ${card.statusHtml || ""}
-            </div>
-        </div>
-    </div>`;
-}
-
-/* =====================================================
-   LOAD CARD FROM FIREBASE (REALTIME)
-===================================================== */
-document.querySelectorAll(".card-container").forEach(container => {
-    const side = container.dataset.side;
-    if (!side) return;
-
-    const cardsRef = ref(db, `cards/${side}`);
-
-    onValue(cardsRef, snap => {
-        const data = snap.val();
-        container.innerHTML = "";
-
-        if (!data) {
-            console.log("❌ Không có card:", side);
-            return;
-        }
-
-        const cards = Object.entries(data).map(([id, value]) => ({
-            id,
-            ...value
-        }));
-
-        cards
-            .sort((a, b) => a.createdAt - b.createdAt)
-            .forEach(card => {
-                container.insertAdjacentHTML("beforeend", renderCard(card));
-            });
-
-        bindImageModal(container);
-        initCarousel(container.closest(".carousel-wrapper"));
-    });
-});
-
-/* =====================================================
-   CAROUSEL (3 CARD DESKTOP / 2 CARD MOBILE – FIXED SIZE)
+   CAROUSEL (ỔN ĐỊNH)
 ===================================================== */
 function initCarousel(wrapper) {
     if (!wrapper) return;
 
     const container = wrapper.querySelector(".card-container");
-    const prevBtn = wrapper.querySelector(".prev");
-    const nextBtn = wrapper.querySelector(".next");
-    const cards = container.children;
+    const prev = wrapper.querySelector(".prev");
+    const next = wrapper.querySelector(".next");
 
     let index = 0;
 
-    function visible() {
-        return window.innerWidth <= 768 ? 2 : 3;
-    }
+    const visible = () => window.innerWidth <= 768 ? 2 : 3;
 
     function update() {
         const v = visible();
+        const total = container.children.length;
 
-        if (cards.length > v) {
-            prevBtn.style.display = "block";
-            nextBtn.style.display = "block";
-        } else {
-            prevBtn.style.display = "none";
-            nextBtn.style.display = "none";
-        }
+        prev.style.display = next.style.display =
+            total > v ? "block" : "none";
 
-        const cardWidth = cards[0]?.offsetWidth + 20 || 0;
-        container.style.transform = `translateX(-${index * cardWidth}px)`;
+        const cardWidth =
+            container.children[0]?.offsetWidth + 20 || 0;
+
+        container.style.transform =
+            `translateX(-${index * cardWidth}px)`;
     }
 
-    prevBtn.onclick = () => {
-        index = Math.max(index - visible(), 0);
+    prev.onclick = () => {
+        index = Math.max(0, index - visible());
         update();
     };
 
-    nextBtn.onclick = () => {
-        index = Math.min(index + visible(), cards.length - visible());
+    next.onclick = () => {
+        index = Math.min(
+            container.children.length - visible(),
+            index + visible()
+        );
         update();
     };
 

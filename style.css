@@ -1,3 +1,4 @@
+/* reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,12 +16,12 @@ h1 {
     margin-bottom: 30px;
 }
 
-/* ===== ACCORDION ===== */
+/* accordion */
 .accordion-item {
-    margin-bottom: 16px;
-    border-radius: 10px;
-    overflow: hidden;
     background: #fff;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
 }
 
 .accordion-header {
@@ -34,7 +35,7 @@ h1 {
 .accordion-content {
     height: 0;
     overflow: hidden;
-    transition: height .45s ease;
+    transition: height .4s ease;
     padding: 0 20px;
 }
 
@@ -42,82 +43,92 @@ h1 {
     padding: 20px;
 }
 
-/* =====================================================
-   🚫 XÓA GRID – KHÔNG DÙNG grid-template-columns
-   ===================================================== */
-
-/* ===== CAROUSEL ===== */
+/* carousel */
 .carousel-wrapper {
     position: relative;
+    margin: 0 20px;
 }
 
 .carousel-viewport {
     overflow: hidden;
 }
 
-/* container trượt ngang */
-.carousel-viewport .card-container {
+.card-container {
     display: flex;
-    /* QUAN TRỌNG */
     gap: 20px;
-    transition: transform 0.4s ease;
+    transition: transform .4s ease;
 }
 
-/* ===== CARD – KHÓA CỨNG KÍCH THƯỚC ===== */
-.carousel-viewport .card {
+/* card */
+.card-wrapper {
     flex: 0 0 calc((100% - 40px) / 3);
     max-width: calc((100% - 40px) / 3);
+}
+
+.card {
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-}
-
-/* ===== IMAGE ===== */
-.card-image {
-    background: #000;
-    overflow: hidden;
+    position: relative;
 }
 
 .card-image img {
     width: 100%;
-    height: auto;
     object-fit: contain;
     cursor: zoom-in;
-    transition: transform .35s ease;
 }
 
-.card-image:hover img {
-    transform: scale(1.08);
-}
-
-/* ===== INFO ===== */
 .card-info {
-    position: relative;
-    padding: 14px;
+    padding: 12px;
     text-align: center;
+    position: relative;
 }
 
-/* ===== TOOLTIP ===== */
+.card-info .date {
+    font-size: 13px;
+    color: #555;
+}
+
+/* ===== TOOLTIP (FIX CHUẨN) ===== */
 .tooltip {
     position: absolute;
     bottom: 120%;
     left: 50%;
     transform: translateX(-50%);
-    width: 230px;
-    background: rgba(0, 0, 0, .85);
+    width: 240px;
+    background: rgba(0, 0, 0, 0.85);
     color: #fff;
     padding: 10px;
     border-radius: 8px;
     opacity: 0;
     pointer-events: none;
+    transition: opacity .25s ease;
     text-align: left;
+    z-index: 10;
 }
 
+/* hover ĐÚNG PHẦN */
 .card-info:hover .tooltip {
     opacity: 1;
 }
 
-/* ===== OVERALL REVIEW ===== */
+/* action row */
+.card-actions {
+    margin-top: 6px;
+    text-align: center;
+}
+
+.edit-card-btn {
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* overall review */
 .overall-review {
     margin-top: 30px;
     padding: 18px;
@@ -127,19 +138,15 @@ h1 {
 }
 
 .overall-content {
-    padding: 10px;
     background: #fff;
+    padding: 10px;
     border: 1px dashed #90caf9;
     border-radius: 6px;
 }
 
-/* BỎ DẤU CHẤM TRONG ĐÁNH GIÁ */
 .overall-content ul {
     list-style: none;
-    /* bỏ bullet */
     padding-left: 0;
-    /* bỏ thụt lề */
-    margin-left: 0;
 }
 
 .overall-content li {
@@ -176,7 +183,6 @@ h1 {
     max-height: 95%;
 }
 
-/* nút X */
 .image-modal .close-btn {
     position: absolute;
     top: 20px;
@@ -186,71 +192,99 @@ h1 {
     cursor: pointer;
 }
 
-/* ===== NÚT CAROUSEL ===== */
+/* edit modal */
+.edit-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.edit-modal.active {
+    display: flex;
+}
+
+.edit-box {
+    background: #fff;
+    padding: 16px;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.edit-box h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+}
+
+.edit-box label {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.edit-box input[type="text"],
+.edit-box input[type="date"],
+.edit-box textarea {
+    width: 100%;
+    padding: 6px 8px;
+    margin-top: 3px;
+    font-size: 13px;
+}
+
+.edit-box input[type="file"] {
+    font-size: 12px;
+    margin-top: 3px;
+    padding: 4px 0;
+}
+
+.edit-box textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#image-preview {
+    margin-top: 6px;
+}
+
+#image-preview img {
+    max-height: 150px;
+}
+
+/* carousel buttons */
 .carousel-btn {
     position: absolute;
     top: 45%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, .6);
     color: #fff;
     border: none;
-    font-size: 24px;
+    font-size: 22px;
     padding: 6px 12px;
-    cursor: pointer;
     border-radius: 50%;
-    z-index: 10;
+    cursor: pointer;
     display: none;
+    z-index: 100;
 }
 
 .carousel-btn.prev {
-    left: -16px;
+    left: -35px;
 }
 
 .carousel-btn.next {
-    right: -16px;
+    right: -35px;
 }
 
-.carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.85);
-}
-
-
-/* ===== MOBILE ===== */
+/* mobile */
 @media (max-width: 768px) {
-
-    body {
-        padding: 12px;
-    }
-
-    /* 2 CARD / 1 MÀN HÌNH */
-    .carousel-viewport .card {
+    .card-wrapper {
         flex: 0 0 calc((100% - 20px) / 2);
         max-width: calc((100% - 20px) / 2);
-    }
-
-    /* NÚT CAROUSEL TO & DỄ BẤM HƠN */
-    .carousel-btn {
-        font-size: 26px;
-        padding: 8px 14px;
-    }
-
-    .carousel-btn.prev {
-        left: -10px;
-    }
-
-    .carousel-btn.next {
-        right: -10px;
-    }
-
-    /* tooltip nhỏ gọn hơn */
-    .tooltip {
-        width: 200px;
-        font-size: 12px;
-    }
-
-    /* overall review gọn hơn */
-    .overall-review {
-        padding: 14px;
-        font-size: 14px;
     }
 }
