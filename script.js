@@ -73,7 +73,7 @@ const editModal = document.createElement("div");
 editModal.className = "edit-modal";
 editModal.innerHTML = `
 <div class="edit-box">
-    <h3 id="edit-modal-title">✏️ Chỉnh sửa card</h3>
+    <h3 id="edit-modal-title">✏️ Chỉnh sửa tiến độ điều trị</h3>
 
     <label>Thời gian</label>
     <input type="text" id="edit-date">
@@ -113,6 +113,110 @@ let currentEdit = null;
 document.getElementById("cancel-edit").onclick = () => {
     editModal.classList.remove("active");
 };
+
+/* =====================================================
+   ADD CARD MODAL
+===================================================== */
+const addCardModal = document.createElement("div");
+addCardModal.className = "edit-modal";
+addCardModal.innerHTML = `
+<div class="edit-box">
+    <h3>➕ Thêm tiến độ điều trị mới</h3>
+
+    <label>Thời gian</label>
+    <input type="text" id="add-card-date" placeholder="VD: 01/02/2026 - Tuần 1">
+
+    <label>Chọn ảnh</label>
+    <input type="file" id="add-card-image-file" accept="image/*">
+    <div id="add-card-image-preview"></div>
+
+    <label>Tình trạng</label>
+    <textarea id="add-card-status" placeholder="Mô tả tình trạng da..."></textarea>
+
+    <div style="margin-top:10px;display:flex;justify-content:space-between;gap:6px">
+        <button id="save-add-card" style="flex:1;padding:6px;font-size:13px;background:#4CAF50;color:#fff;border:none;border-radius:6px;cursor:pointer;">💾 Lưu tiến độ</button>
+        <button id="cancel-add-card" style="flex:1;padding:6px;font-size:13px;background:#f44336;color:#fff;border:none;border-radius:6px;cursor:pointer;">❌ Hủy</button>
+    </div>
+</div>
+`;
+document.body.appendChild(addCardModal);
+
+let addCardImageUrl = null;
+let addCardSide = null;
+
+document.getElementById("add-card-image-file").onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        addCardImageUrl = event.target.result;
+        const preview = document.getElementById("add-card-image-preview");
+        preview.innerHTML = `<img src="${addCardImageUrl}" style="max-width:100%;border-radius:6px;">`;
+    };
+    reader.readAsDataURL(file);
+};
+
+document.getElementById("cancel-add-card").onclick = () => {
+    addCardModal.classList.remove("active");
+    addCardImageUrl = null;
+    addCardSide = null;
+};
+
+document.getElementById("save-add-card").onclick = async () => {
+    const dateTime = document.getElementById("add-card-date").value.trim();
+    const status = document.getElementById("add-card-status").value.trim();
+
+    if (!addCardSide || !dateTime || !status || !addCardImageUrl) {
+        alert("⚠️ Vui lòng điền đầy đủ thông tin (ảnh, ngày, tình trạng)!");
+        return;
+    }
+
+    try {
+        const dateKey = dateTime.split(" - ")[0].trim();
+        const newCardId = Date.now().toString();
+
+        const cardRef = ref(db, `cards/${addCardSide}/${newCardId}`);
+        await set(cardRef, {
+            imageUrl: addCardImageUrl,
+            dateTime: dateTime,
+            statusHtml: status,
+            dateKey: dateKey,
+            createdAt: Date.now(),
+            editHistory: []
+        });
+
+        showNotification("✅ Đã thêm tiến độ điều trị mới!");
+        addCardModal.classList.remove("active");
+
+        // Reset form
+        document.getElementById("add-card-date").value = "";
+        document.getElementById("add-card-status").value = "";
+        document.getElementById("add-card-image-file").value = "";
+        document.getElementById("add-card-image-preview").innerHTML = "";
+        addCardImageUrl = null;
+        addCardSide = null;
+    } catch (error) {
+        console.error("Lỗi khi thêm tiến độ:", error);
+        alert("❌ Lỗi khi thêm tiến độ!");
+    }
+};
+
+// Handle click on "Add card" button
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".add-card-btn");
+    if (!btn) return;
+
+    addCardSide = btn.dataset.side;
+    addCardImageUrl = null;
+
+    document.getElementById("add-card-date").value = "";
+    document.getElementById("add-card-status").value = "";
+    document.getElementById("add-card-image-file").value = "";
+    document.getElementById("add-card-image-preview").innerHTML = "";
+
+    addCardModal.classList.add("active");
+});
 
 /* =====================================================
    HISTORY MODAL
@@ -258,7 +362,7 @@ document.getElementById("save-edit").onclick = async () => {
 
         imageDataUrl = null;
         editModal.classList.remove("active");
-        showNotification("✅ Đã lưu card!");
+        showNotification("✅ Đã lưu tiến độ điều trị!");
     } catch (error) {
         console.error("Lỗi khi lưu:", error);
         alert("Lỗi khi lưu dữ liệu!");
@@ -365,6 +469,7 @@ function renderCard(card, id, side) {
         <div class="card-actions" style="display:flex;gap:8px;">
             <button class="edit-card-btn" style="flex:1;">✏️ Chỉnh sửa</button>
             <button class="view-history-btn" style="flex:1;background:#2196F3;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;">📋 Lịch sử</button>
+            <button class="delete-card-btn" style="flex:1;background:#f44336;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;">🗑️ Xóa</button>
         </div>
     </div>`;
 }
@@ -448,6 +553,34 @@ document.addEventListener("click", e => {
 });
 
 /* =====================================================
+   DELETE CARD
+===================================================== */
+document.addEventListener("click", e => {
+    const btn = e.target.closest(".delete-card-btn");
+    if (!btn) return;
+
+    const wrap = btn.closest(".card-wrapper");
+    const side = wrap.dataset.side;
+    const id = wrap.dataset.id;
+    const dateText = wrap.querySelector(".date").innerText;
+
+    const sideNames = { left: "Mặt Trái", right: "Mặt Phải", center: "Mặt Chính Diện" };
+    const sideName = sideNames[side] || side;
+
+    if (!confirm(`Bạn có chắc muốn xóa tiến độ ngày ${dateText} của ${sideName}?\n\nHành động này không thể hoàn tác!`)) return;
+
+    try {
+        const cardRef = ref(db, `cards/${side}/${id}`);
+        set(cardRef, null).then(() => {
+            showNotification(`✅ Đã xóa tiến độ ngày ${dateText}!`);
+        });
+    } catch (error) {
+        console.error("Lỗi khi xóa:", error);
+        alert("❌ Lỗi khi xóa tiến độ!");
+    }
+});
+
+/* =====================================================
    CLICK EDIT (TÁCH BIỆT – KHÔNG BỊ CHẶN)
 ===================================================== */
 document.addEventListener("click", e => {
@@ -466,7 +599,7 @@ document.addEventListener("click", e => {
     };
 
     // Cập nhật tiêu đề modal với ngày
-    document.getElementById("edit-modal-title").textContent = `✏️ Chỉnh sửa card ${dateText}`;
+    document.getElementById("edit-modal-title").textContent = `✏️ Chỉnh sửa tiến độ điều trị ${dateText}`;
 
     document.getElementById("edit-date").value = dateText;
 
